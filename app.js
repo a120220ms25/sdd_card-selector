@@ -442,7 +442,99 @@ const CreditCardMatcher = {
 // ============================================================================
 
 const DealCalculator = {
-    // 將在 T029 實作
+    /**
+     * 計算所有平台與信用卡組合，找出最佳方案
+     * T029 實作
+     */
+    calculateBestDeal({ prices }) {
+        try {
+            console.log('開始計算最佳方案...');
+
+            let bestDeal = null;
+            let lowestFinalPrice = Infinity;
+
+            // 遍歷每個平台價格
+            prices.forEach(priceData => {
+                const platform = priceData.platform;
+                const price = priceData.price;
+
+                // 計算無信用卡的情況
+                const noCreditCardDeal = {
+                    platform: platform,
+                    platformName: platformRulesData[platform]?.name || platform,
+                    originalPrice: price,
+                    finalPrice: price,
+                    savings: 0,
+                    creditCard: null,
+                    affiliateUrl: priceData.affiliateUrl || priceData.platformProductUrl
+                };
+
+                if (price < lowestFinalPrice) {
+                    lowestFinalPrice = price;
+                    bestDeal = noCreditCardDeal;
+                }
+
+                // 計算所有信用卡組合
+                creditCardsData.forEach(card => {
+                    const calculation = CreditCardMatcher.calculateBenefit({
+                        card,
+                        platform,
+                        price
+                    });
+
+                    if (calculation.applicable) {
+                        const finalPrice = calculation.finalPrice;
+
+                        const deal = {
+                            platform: platform,
+                            platformName: platformRulesData[platform]?.name || platform,
+                            originalPrice: price,
+                            finalPrice: finalPrice,
+                            savings: calculation.benefit,
+                            creditCard: {
+                                id: card.id,
+                                name: card.name,
+                                bank: card.bank,
+                                rate: calculation.rate,
+                                benefit: calculation.benefit,
+                                applyUrl: card.applyUrl,
+                                conditions: card.conditions,
+                                description: calculation.description
+                            },
+                            affiliateUrl: priceData.affiliateUrl || priceData.platformProductUrl
+                        };
+
+                        // 更新最佳方案
+                        if (finalPrice < lowestFinalPrice) {
+                            lowestFinalPrice = finalPrice;
+                            bestDeal = deal;
+                        }
+                    }
+                });
+            });
+
+            if (bestDeal) {
+                console.log('最佳方案計算完成:', bestDeal);
+                return {
+                    success: true,
+                    deal: bestDeal
+                };
+            } else {
+                console.warn('無法計算最佳方案');
+                return {
+                    success: false,
+                    error: '無法找到最佳方案'
+                };
+            }
+
+        } catch (error) {
+            console.error('計算最佳方案失敗:', error);
+            return {
+                success: false,
+                error: '計算最佳方案時發生錯誤'
+            };
+        }
+    }
 };
 
 // ============================================================================
@@ -587,6 +679,117 @@ const UIRenderer = {
         // 顯示區塊
         section.classList.remove('hidden');
         console.log('信用卡推薦已渲染');
+    },
+
+    /**
+     * 渲染最佳方案
+     * T030 實作
+     */
+    renderBestDeal({ deal }) {
+        const section = document.getElementById('bestDealSection');
+        if (!section) {
+            console.error('找不到最佳方案區塊');
+            return;
+        }
+
+        // 計算節省百分比
+        const savingsPercent = deal.savings > 0
+            ? Math.round((deal.savings / deal.originalPrice) * 100)
+            : 0;
+
+        // 構建 HTML
+        let dealHTML = `
+            <div class="best-deal-container">
+                <div class="best-deal-header">
+                    <div class="crown-icon">👑</div>
+                    <h2>最佳購買方案</h2>
+                </div>
+                <div class="best-deal-content">
+                    <div class="deal-main">
+                        <div class="platform-info">
+                            <div class="label">推薦平台</div>
+                            <div class="platform-name-large">${deal.platformName}</div>
+                        </div>
+                        <div class="price-breakdown">
+                            <div class="price-item original">
+                                <span class="label">原價</span>
+                                <span class="value">NT$ ${deal.originalPrice.toLocaleString()}</span>
+                            </div>
+        `;
+
+        // 如果有信用卡優惠
+        if (deal.creditCard) {
+            dealHTML += `
+                            <div class="price-item savings">
+                                <span class="label">信用卡回饋</span>
+                                <span class="value">- NT$ ${deal.savings.toLocaleString()}</span>
+                            </div>
+            `;
+        }
+
+        dealHTML += `
+                            <div class="price-item final">
+                                <span class="label">實付價格</span>
+                                <span class="value final-price">NT$ ${deal.finalPrice.toLocaleString()}</span>
+                            </div>
+                        </div>
+                    </div>
+        `;
+
+        // 如果有信用卡優惠，顯示信用卡資訊
+        if (deal.creditCard) {
+            dealHTML += `
+                    <div class="deal-card-info">
+                        <div class="card-badge">
+                            <span class="badge-icon">💳</span>
+                            <span class="badge-text">搭配信用卡</span>
+                        </div>
+                        <div class="card-details">
+                            <div class="card-name">${deal.creditCard.name}</div>
+                            <div class="card-benefit">
+                                <span class="rate">${deal.creditCard.rate}% 回饋</span>
+                                <span class="savings-badge">省下 NT$ ${deal.savings.toLocaleString()} (${savingsPercent}%)</span>
+                            </div>
+                            ${deal.creditCard.conditions ? `<div class="card-conditions">📌 ${deal.creditCard.conditions}</div>` : ''}
+                        </div>
+                    </div>
+            `;
+        } else {
+            dealHTML += `
+                    <div class="deal-no-card">
+                        <div class="no-card-message">
+                            💡 此平台目前無適用的信用卡優惠
+                        </div>
+                    </div>
+            `;
+        }
+
+        // 行動按鈕
+        dealHTML += `
+                    <div class="deal-actions">
+                        <a href="${deal.affiliateUrl}" target="_blank" rel="noopener noreferrer" class="btn-buy-now">
+                            立即前往購買
+                        </a>
+        `;
+
+        if (deal.creditCard) {
+            dealHTML += `
+                        <a href="${deal.creditCard.applyUrl}" target="_blank" rel="noopener noreferrer" class="btn-apply-card">
+                            申辦信用卡
+                        </a>
+            `;
+        }
+
+        dealHTML += `
+                    </div>
+                </div>
+            </div>
+        `;
+
+        section.innerHTML = dealHTML;
+        section.classList.remove('hidden');
+
+        console.log('最佳方案已渲染');
     }
 };
 
@@ -730,8 +933,22 @@ async function handleFormSubmit(event) {
             prices: fetchResult.prices
         });
 
-        // 步驟 4: 找出最便宜的平台並推薦信用卡
-        console.log('步驟 4: 推薦信用卡...');
+        // 步驟 4: 計算最佳購買方案
+        console.log('步驟 4: 計算最佳購買方案...');
+        const bestDealResult = DealCalculator.calculateBestDeal({
+            prices: fetchResult.prices
+        });
+
+        if (bestDealResult.success) {
+            UIRenderer.renderBestDeal({
+                deal: bestDealResult.deal
+            });
+        } else {
+            console.error('無法計算最佳方案');
+        }
+
+        // 步驟 5: 找出最便宜的平台並推薦信用卡
+        console.log('步驟 5: 推薦信用卡...');
         const lowestPriceData = fetchResult.prices.reduce((min, p) =>
             p.price < min.price ? p : min
         , fetchResult.prices[0]);

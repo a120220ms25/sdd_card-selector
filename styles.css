@@ -455,6 +455,297 @@ header h1 {
     background: linear-gradient(135deg, #764ba2, #5a3d7a);
 }
 
+/* 最佳方案區塊 */
+.best-deal-section {
+    margin-bottom: 40px;
+}
+
+.best-deal-container {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    padding: 0;
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+    overflow: hidden;
+    animation: slideDown 0.5s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 最佳方案標題 */
+.best-deal-header {
+    text-align: center;
+    padding: 24px 20px 16px;
+    color: white;
+    position: relative;
+}
+
+.crown-icon {
+    font-size: 3rem;
+    margin-bottom: 8px;
+    animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.best-deal-header h2 {
+    font-size: 2rem;
+    margin: 0;
+    font-weight: 700;
+}
+
+/* 最佳方案內容 */
+.best-deal-content {
+    background: white;
+    padding: 32px 24px;
+}
+
+.deal-main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.platform-info {
+    text-align: center;
+    padding: 16px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-radius: var(--border-radius);
+}
+
+.platform-info .label {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.platform-name-large {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+/* 價格明細 */
+.price-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.price-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-radius: var(--border-radius);
+}
+
+.price-item.original {
+    background: #f8f9fa;
+}
+
+.price-item.original .value {
+    color: #666;
+    text-decoration: line-through;
+}
+
+.price-item.savings {
+    background: #e8f5e9;
+}
+
+.price-item.savings .value {
+    color: var(--secondary-color);
+    font-weight: 700;
+}
+
+.price-item.final {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 16px;
+}
+
+.price-item.final .label {
+    font-size: 1rem;
+}
+
+.price-item.final .value {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.price-item .label {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.price-item .value {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+/* 信用卡資訊 */
+.deal-card-info {
+    background: linear-gradient(135deg, #fff5e6 0%, #ffe0b2 100%);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    margin-bottom: 24px;
+    border: 2px solid var(--warning-color);
+}
+
+.card-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--warning-color);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.badge-icon {
+    font-size: 1rem;
+}
+
+.card-details .card-name {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 8px;
+}
+
+.card-benefit {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+
+.card-benefit .rate {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--warning-color);
+}
+
+.savings-badge {
+    background: var(--secondary-color);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.card-conditions {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 8px;
+}
+
+/* 無信用卡訊息 */
+.deal-no-card {
+    background: #f8f9fa;
+    padding: 16px;
+    border-radius: var(--border-radius);
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.no-card-message {
+    color: #666;
+    font-size: 0.95rem;
+}
+
+/* 行動按鈕 */
+.deal-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+}
+
+.btn-buy-now,
+.btn-apply-card {
+    display: block;
+    padding: 14px 24px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.btn-buy-now {
+    background: linear-gradient(135deg, var(--secondary-color), #45b068);
+    color: white;
+}
+
+.btn-buy-now:hover {
+    background: linear-gradient(135deg, #45b068, #3a9557);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(80, 200, 120, 0.4);
+}
+
+.btn-apply-card {
+    background: linear-gradient(135deg, var(--warning-color), #e67e22);
+    color: white;
+}
+
+.btn-apply-card:hover {
+    background: linear-gradient(135deg, #e67e22, #d35400);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(243, 156, 18, 0.4);
+}
+
+/* 響應式設計 - 最佳方案 */
+@media (max-width: 768px) {
+    .deal-main {
+        grid-template-columns: 1fr;
+    }
+
+    .best-deal-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .crown-icon {
+        font-size: 2.5rem;
+    }
+
+    .platform-name-large {
+        font-size: 1.4rem;
+    }
+
+    .price-item.final .value {
+        font-size: 1.5rem;
+    }
+
+    .deal-actions {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* 頁尾 */
 footer {
     text-align: center;

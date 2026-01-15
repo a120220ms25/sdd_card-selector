@@ -100,11 +100,11 @@
 
 ### 實作使用者故事 3
 
-- [ ] T029 [US3] 在 app.js 實作 DealCalculator.calculateBestDeal() 模組（計算所有平台與信用卡組合，找出最佳方案）
-- [ ] T030 [US3] 在 app.js 實作 UIRenderer.renderBestDeal() 模組（渲染最佳方案區塊到頁面頂部）
-- [ ] T031 [US3] 在 index.html 新增最佳方案區塊（醒目的頂部區塊，顯示最優組合）
-- [ ] T032 [US3] 在 styles.css 新增最佳方案樣式（醒目配色、大字體、突出顯示）
-- [ ] T033 [US3] 在 app.js 整合最佳方案計算到主流程（在信用卡推薦完成後計算並顯示最佳方案）
+- [X] T029 [US3] 在 app.js 實作 DealCalculator.calculateBestDeal() 模組（計算所有平台與信用卡組合，找出最佳方案）
+- [X] T030 [US3] 在 app.js 實作 UIRenderer.renderBestDeal() 模組（渲染最佳方案區塊到頁面頂部）
+- [X] T031 [US3] 在 index.html 新增最佳方案區塊（醒目的頂部區塊，顯示最優組合）
+- [X] T032 [US3] 在 styles.css 新增最佳方案樣式（醒目配色、大字體、突出顯示）
+- [X] T033 [US3] 在 app.js 整合最佳方案計算到主流程（在信用卡推薦完成後計算並顯示最佳方案）
 
 **檢查點**: 所有使用者故事現在應該都能獨立運作
 
