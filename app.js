@@ -324,7 +324,117 @@ const AffiliateLinkGenerator = {
 // ============================================================================
 
 const CreditCardMatcher = {
-    // 將在 T023, T024 實作
+    /**
+     * 計算單張信用卡的實際優惠金額（內部函數）
+     * T023 實作
+     */
+    calculateBenefit({ card, platform, price }) {
+        try {
+            // 檢查信用卡是否支援該平台
+            if (!card.platforms || !card.platforms.includes(platform)) {
+                return {
+                    applicable: false,
+                    benefit: 0,
+                    finalPrice: price,
+                    reason: '不支援此平台'
+                };
+            }
+
+            // 檢查優惠是否過期
+            if (card.expiryDate) {
+                const expiryDate = new Date(card.expiryDate);
+                const now = new Date();
+                if (now > expiryDate) {
+                    return {
+                        applicable: false,
+                        benefit: 0,
+                        finalPrice: price,
+                        reason: '優惠已過期'
+                    };
+                }
+            }
+
+            const benefits = card.benefits;
+            let benefitAmount = 0;
+
+            // 計算回饋金額
+            if (benefits.type === 'cashback') {
+                // 計算回饋 = 價格 * 回饋率 / 100
+                benefitAmount = Math.floor(price * benefits.rate / 100);
+
+                // 限制在每月上限內
+                if (benefits.maxAmount && benefitAmount > benefits.maxAmount) {
+                    benefitAmount = benefits.maxAmount;
+                }
+            }
+
+            // 計算實付價格
+            const finalPrice = price - benefitAmount;
+
+            return {
+                applicable: true,
+                benefit: benefitAmount,
+                finalPrice: finalPrice,
+                rate: benefits.rate,
+                maxAmount: benefits.maxAmount,
+                description: benefits.description
+            };
+
+        } catch (error) {
+            console.error('計算信用卡優惠失敗:', error);
+            return {
+                applicable: false,
+                benefit: 0,
+                finalPrice: price,
+                reason: '計算錯誤'
+            };
+        }
+    },
+
+    /**
+     * 找出適用平台的最優惠信用卡
+     * T024 實作
+     */
+    findBestCards({ platform, price, limit = 5 }) {
+        try {
+            console.log(`尋找 ${platform} 的最優惠信用卡，商品價格: ${price}`);
+
+            // 計算所有信用卡的優惠
+            const cardResults = creditCardsData.map(card => {
+                const calculation = this.calculateBenefit({ card, platform, price });
+
+                return {
+                    card,
+                    ...calculation
+                };
+            });
+
+            // 只保留適用的信用卡
+            const applicableCards = cardResults.filter(result => result.applicable);
+
+            // 按優惠金額排序（從高到低）
+            applicableCards.sort((a, b) => b.benefit - a.benefit);
+
+            // 限制返回數量
+            const topCards = applicableCards.slice(0, limit);
+
+            console.log(`找到 ${applicableCards.length} 張適用信用卡，返回前 ${topCards.length} 張`);
+
+            return {
+                success: true,
+                cards: topCards,
+                totalCount: applicableCards.length
+            };
+
+        } catch (error) {
+            console.error('尋找最優惠信用卡失敗:', error);
+            return {
+                success: false,
+                cards: [],
+                error: '無法計算信用卡優惠'
+            };
+        }
+    }
 };
 
 // ============================================================================
@@ -401,6 +511,82 @@ const UIRenderer = {
         }
 
         console.log('價格比較結果已渲染');
+    },
+
+    /**
+     * 渲染信用卡推薦
+     * T025 實作
+     */
+    renderCreditCardRecommendations({ platform, price, cardResults }) {
+        const section = document.getElementById('creditCardSection');
+        if (!section) {
+            console.error('找不到信用卡推薦區塊');
+            return;
+        }
+
+        // 取得平台名稱
+        const platformRule = platformRulesData[platform];
+        const platformName = platformRule ? platformRule.name : platform;
+
+        // 清空並設定標題
+        section.innerHTML = `
+            <h2>💳 ${platformName} 信用卡推薦</h2>
+            <p class="section-subtitle">使用以下信用卡購買可獲得額外回饋</p>
+            <div id="creditCardResults"></div>
+        `;
+
+        const container = document.getElementById('creditCardResults');
+
+        // 檢查是否有推薦卡片
+        if (!cardResults || cardResults.length === 0) {
+            container.innerHTML = '<p class="no-results">目前沒有適用的信用卡優惠</p>';
+            section.classList.remove('hidden');
+            return;
+        }
+
+        // 為每張信用卡生成卡片
+        cardResults.forEach((result, index) => {
+            const card = result.card;
+            const isTopChoice = index === 0;
+
+            // 建立卡片元素
+            const cardElement = document.createElement('div');
+            cardElement.className = `credit-card ${isTopChoice ? 'top-choice' : ''}`;
+
+            cardElement.innerHTML = `
+                ${isTopChoice ? '<div class="top-badge">最推薦</div>' : ''}
+                <div class="card-header">
+                    <h3 class="card-name">${card.name}</h3>
+                    <div class="bank-name">${card.bank}</div>
+                </div>
+                <div class="card-body">
+                    <div class="benefit-info">
+                        <div class="benefit-rate">${result.rate}% 回饋</div>
+                        <div class="benefit-amount">
+                            <span class="label">可省</span>
+                            <span class="amount">NT$ ${result.benefit.toLocaleString()}</span>
+                        </div>
+                        <div class="final-price">
+                            <span class="label">實付</span>
+                            <span class="price">NT$ ${result.finalPrice.toLocaleString()}</span>
+                        </div>
+                    </div>
+                    <div class="benefit-description">${result.description}</div>
+                    ${card.conditions ? `<div class="conditions">📌 ${card.conditions}</div>` : ''}
+                </div>
+                <div class="card-footer">
+                    <a href="${card.applyUrl}" target="_blank" rel="noopener noreferrer" class="btn-apply">
+                        立即申辦
+                    </a>
+                </div>
+            `;
+
+            container.appendChild(cardElement);
+        });
+
+        // 顯示區塊
+        section.classList.remove('hidden');
+        console.log('信用卡推薦已渲染');
     }
 };
 
@@ -543,6 +729,28 @@ async function handleFormSubmit(event) {
             product,
             prices: fetchResult.prices
         });
+
+        // 步驟 4: 找出最便宜的平台並推薦信用卡
+        console.log('步驟 4: 推薦信用卡...');
+        const lowestPriceData = fetchResult.prices.reduce((min, p) =>
+            p.price < min.price ? p : min
+        , fetchResult.prices[0]);
+
+        const cardRecommendations = CreditCardMatcher.findBestCards({
+            platform: lowestPriceData.platform,
+            price: lowestPriceData.price,
+            limit: 5
+        });
+
+        if (cardRecommendations.success && cardRecommendations.cards.length > 0) {
+            UIRenderer.renderCreditCardRecommendations({
+                platform: lowestPriceData.platform,
+                price: lowestPriceData.price,
+                cardResults: cardRecommendations.cards
+            });
+        } else {
+            console.log('沒有適用的信用卡推薦');
+        }
 
         // 儲存到最近查詢
         StorageManager.saveRecentSearch(product, Date.now());

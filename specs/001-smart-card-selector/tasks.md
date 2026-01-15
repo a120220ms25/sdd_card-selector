@@ -81,12 +81,12 @@
 
 ### 實作使用者故事 2
 
-- [ ] T023 [P] [US2] 在 app.js 實作 CreditCardMatcher.calculateBenefit() 內部函數（計算單張信用卡的實際優惠金額）
-- [ ] T024 [US2] 在 app.js 實作 CreditCardMatcher.findBestCards() 模組（找出適用平台的最優惠信用卡，依賴 T023）
-- [ ] T025 [US2] 在 app.js 實作 UIRenderer.renderCreditCardRecommendations() 模組（渲染信用卡推薦清單）
-- [ ] T026 [US2] 在 index.html 新增信用卡推薦區塊（用於顯示信用卡優惠清單）
-- [ ] T027 [US2] 在 styles.css 新增信用卡推薦樣式（卡片佈局、優惠標籤、辦卡按鈕）
-- [ ] T028 [US2] 在 app.js 整合信用卡推薦流程到主流程（在價格比較完成後自動顯示信用卡推薦）
+- [X] T023 [P] [US2] 在 app.js 實作 CreditCardMatcher.calculateBenefit() 內部函數（計算單張信用卡的實際優惠金額）
+- [X] T024 [US2] 在 app.js 實作 CreditCardMatcher.findBestCards() 模組（找出適用平台的最優惠信用卡，依賴 T023）
+- [X] T025 [US2] 在 app.js 實作 UIRenderer.renderCreditCardRecommendations() 模組（渲染信用卡推薦清單）
+- [X] T026 [US2] 在 index.html 新增信用卡推薦區塊（用於顯示信用卡優惠清單）
+- [X] T027 [US2] 在 styles.css 新增信用卡推薦樣式（卡片佈局、優惠標籤、辦卡按鈕）
+- [X] T028 [US2] 在 app.js 整合信用卡推薦流程到主流程（在價格比較完成後自動顯示信用卡推薦）
 
 **檢查點**: 此時，使用者故事 1 和 2 應該都能獨立運作
 
