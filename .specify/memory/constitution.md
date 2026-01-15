@@ -1,50 +1,119 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+同步影響報告
+版本變更: 未定義 → 1.0.0
+新增原則:
+- I. MVP 優先
+- II. 快速迭代
+- III. 簡潔架構
+- IV. 正體中文溝通
 
-## Core Principles
+新增章節:
+- 核心原則
+- 開發約束
+- 治理規範
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+模板更新狀態:
+- ✅ plan-template.md (.specify/templates/plan-template.md)
+- ✅ spec-template.md (.specify/templates/spec-template.md)
+- ✅ tasks-template.md (.specify/templates/tasks-template.md)
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+後續待辦事項: 無
+-->
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+# SDD Card Selector 專案憲章
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+## 核心原則
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### I. MVP 優先
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+每個功能都必須從最小可行產品開始：
+- 先實現核心價值，後續再擴展
+- 避免過度設計和提前優化
+- 每個迭代都應該是可展示、可使用的版本
+- 功能完整性優先於技術完美
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+**理由**: 快速驗證想法並獲得使用者反饋，避免浪費時間在不必要的功能上。
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+### II. 快速迭代
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+開發流程必須支持快速反饋循環：
+- 小步提交，頻繁整合
+- 每個功能應該在數小時到數天內完成
+- 優先解決阻礙使用者的問題
+- 避免長期分支和大型重構
 
-## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
+**理由**: 縮短反饋週期，讓團隊能快速調整方向，降低開發風險。
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+### III. 簡潔架構
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+保持程式碼和架構的簡單性：
+- 避免不必要的抽象層
+- 只在真正需要時才引入設計模式
+- 優先使用標準庫和成熟的第三方套件
+- 程式碼應該容易閱讀和修改
+
+**理由**: 簡單的系統更容易維護、除錯和擴展，降低認知負擔。
+
+### IV. 正體中文溝通
+
+所有專案文件和溝通使用正體中文：
+- 規格文件、計畫文件使用正體中文撰寫
+- 程式碼註解使用正體中文（必要時）
+- 提交訊息使用正體中文
+- 變數和函數名稱使用英文（遵循程式語言慣例）
+
+**理由**: 確保團隊溝通清晰，降低語言障礙，提高協作效率。
+
+## 開發約束
+
+### 測試策略
+
+**不強制要求測試**：
+- 專注於快速開發和功能交付
+- 測試為選擇性項目，由開發者根據需求決定
+- 若需要測試，應該簡單且針對關鍵功能
+- 手動測試和程式碼審查優先於自動化測試
+
+### 文件要求
+
+**最小化文件**：
+- 只撰寫必要的使用者文件
+- 程式碼應該自解釋，減少註解需求
+- 規格文件應該簡短並專注於使用者場景
+- 避免撰寫過時的技術文件
+
+### 技術選擇
+
+**實用主義優先**：
+- 選擇團隊熟悉的技術棧
+- 避免為了技術而技術
+- 穩定性優於最新潮流
+- 解決問題優先於技術完美
+
+## 治理規範
+
+### 修正程序
+
+本憲章的修正需要：
+1. 提出具體的修正提案（包含原因和影響範圍）
+2. 團隊討論並達成共識
+3. 更新憲章版本號（遵循語義化版本規則）
+4. 同步更新相關模板和文件
+
+### 版本控制政策
+
+版本號格式：`主版本.次版本.修訂版`
+
+- **主版本**：移除或重新定義核心原則（向後不相容）
+- **次版本**：新增原則或重要章節
+- **修訂版**：文字修正、澄清說明、非語義變更
+
+### 合規性審查
+
+所有拉取請求（Pull Request）應該：
+- 符合 MVP 優先原則（避免過度設計）
+- 遵循簡潔架構原則
+- 使用正體中文撰寫提交訊息和文件
+- 複雜度必須有充分理由
+
+**版本**: 1.0.0 | **批准日期**: 2026-01-15 | **最後修正日期**: 2026-01-15

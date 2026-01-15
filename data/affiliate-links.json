@@ -1,0 +1,23 @@
+{
+  "shopee": {
+    "template": "{productUrl}?afid=YOUR_SHOPEE_AFFILIATE_ID&utm_source=smart-card-selector",
+    "params": {
+      "affiliateId": "YOUR_SHOPEE_AFFILIATE_ID"
+    },
+    "description": "蝦皮聯盟行銷連結（需申請蝦皮聯盟會員）"
+  },
+  "momo": {
+    "template": "https://momo.dm/YOUR_MOMO_AFFILIATE_ID?u={encodedProductUrl}",
+    "params": {
+      "affiliateId": "YOUR_MOMO_AFFILIATE_ID"
+    },
+    "description": "momo聯盟行銷連結（需申請momo聯盟會員）"
+  },
+  "pchome": {
+    "template": "{productUrl}&utm_source=smart-card-selector&aff_id=YOUR_PCHOME_AFFILIATE_ID",
+    "params": {
+      "affiliateId": "YOUR_PCHOME_AFFILIATE_ID"
+    },
+    "description": "PChome聯盟行銷連結（需申請PChome聯盟會員）"
+  }
+}

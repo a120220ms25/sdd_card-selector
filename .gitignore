@@ -1,0 +1,39 @@
+# 作業系統檔案
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+
+# IDE 和編輯器
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# 日誌檔案
+*.log
+
+# 環境變數檔案
+.env
+.env.*
+
+# 臨時檔案
+*.bak
+*~
+
+# Node.js (如果未來需要)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# 測試覆蓋率
+coverage/
+.nyc_output/
+
+# 建置輸出
+dist/
+build/
+out/

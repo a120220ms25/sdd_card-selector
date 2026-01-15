@@ -1,0 +1,77 @@
+[
+  {
+    "id": "cc001",
+    "name": "玉山 Pi 拍錢包信用卡",
+    "bank": "玉山銀行",
+    "platforms": ["shopee", "momo", "pchome"],
+    "benefits": {
+      "type": "cashback",
+      "rate": 5,
+      "maxAmount": 500,
+      "description": "指定通路 5% 回饋，每月上限 $500"
+    },
+    "applyUrl": "https://www.esunbank.com/zh-tw/personal/credit-card/cards/pi",
+    "conditions": "需綁定 Pi 拍錢包",
+    "expiryDate": "2026-12-31"
+  },
+  {
+    "id": "cc002",
+    "name": "中國信託 LINE Pay 卡",
+    "bank": "中國信託",
+    "platforms": ["shopee", "momo"],
+    "benefits": {
+      "type": "cashback",
+      "rate": 3,
+      "maxAmount": 300,
+      "description": "網購 3% 回饋，每月上限 $300"
+    },
+    "applyUrl": "https://www.ctbcbank.com/twrbo/zh_tw/index/credit-card/linepay.html",
+    "conditions": "需使用 LINE Pay 付款",
+    "expiryDate": "2026-12-31"
+  },
+  {
+    "id": "cc003",
+    "name": "台新 @GoGo 卡",
+    "bank": "台新銀行",
+    "platforms": ["momo", "pchome"],
+    "benefits": {
+      "type": "cashback",
+      "rate": 3.5,
+      "maxAmount": 400,
+      "description": "指定通路 3.5% 回饋，每月上限 $400"
+    },
+    "applyUrl": "https://www.taishinbank.com.tw/TSB/personal/credit/intro/overview/cg001/",
+    "conditions": "無門檻",
+    "expiryDate": "2026-12-31"
+  },
+  {
+    "id": "cc004",
+    "name": "富邦 J 卡",
+    "bank": "富邦銀行",
+    "platforms": ["shopee", "pchome"],
+    "benefits": {
+      "type": "cashback",
+      "rate": 2,
+      "maxAmount": 200,
+      "description": "網購 2% 回饋，每月上限 $200"
+    },
+    "applyUrl": "https://www.fubon.com/banking/personal/credit_card/j_card.htm",
+    "conditions": "新戶首三個月 5% 回饋",
+    "expiryDate": "2026-06-30"
+  },
+  {
+    "id": "cc005",
+    "name": "國泰世華 CUBE 卡",
+    "bank": "國泰世華銀行",
+    "platforms": ["shopee", "momo", "pchome"],
+    "benefits": {
+      "type": "cashback",
+      "rate": 3,
+      "maxAmount": 600,
+      "description": "指定通路 3% 回饋，每月上限 $600"
+    },
+    "applyUrl": "https://www.cathaybk.com.tw/cathaybk/personal/credit-card/cards/cube/",
+    "conditions": "需累積消費達 $5,000",
+    "expiryDate": "2026-12-31"
+  }
+]

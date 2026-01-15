@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="智慧選卡器 - 比較商品價格並推薦最優惠的信用卡">
+    <meta name="keywords" content="比價, 信用卡, 優惠, 聯盟行銷">
+    <title>智慧選卡器 - 找到最划算的購物方案</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛒 智慧選卡器</h1>
+            <p class="subtitle">貼上商品連結，找到最便宜的平台和最優惠的信用卡</p>
+        </header>
+
+        <main>
+            <!-- 商品網址輸入表單 -->
+            <section class="input-section">
+                <form id="productForm">
+                    <div class="form-group">
+                        <label for="productUrl">商品網址</label>
+                        <input
+                            type="url"
+                            id="productUrl"
+                            name="productUrl"
+                            placeholder="貼上蝦皮、momo 或 PChome 的商品連結..."
+                            required
+                        >
+                    </div>
+                    <button type="submit" class="btn-primary" id="submitBtn">
+                        開始比價
+                    </button>
+                </form>
+            </section>
+
+            <!-- 載入指示器 -->
+            <div id="loadingIndicator" class="loading hidden">
+                <div class="spinner"></div>
+                <p>正在查詢各平台價格...</p>
+            </div>
+
+            <!-- 錯誤訊息 -->
+            <div id="errorMessage" class="error-message hidden"></div>
+
+            <!-- 結果區域（將由 JavaScript 動態填充） -->
+            <div id="resultsContainer" class="results-container hidden">
+                <!-- 最佳方案區塊（US3） -->
+                <section id="bestDealSection" class="best-deal-section hidden"></section>
+
+                <!-- 價格比較結果（US1） -->
+                <section id="priceComparisonSection" class="price-comparison-section"></section>
+
+                <!-- 信用卡推薦（US2） -->
+                <section id="creditCardSection" class="credit-card-section hidden"></section>
+            </div>
+        </main>
+
+        <footer>
+            <p>使用本服務即表示您同意我們的使用條款。價格和優惠資訊僅供參考。</p>
+            <p class="copyright">&copy; 2026 智慧選卡器</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

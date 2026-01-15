@@ -1,0 +1,32 @@
+{
+  "shopee": {
+    "domain": "shopee.tw",
+    "name": "蝦皮購物",
+    "selectors": {
+      "name": "._2rQP1z, .product-title",
+      "price": ".pqTWkA, ._3n5NQx, .product-price",
+      "image": ".product-image img, ._2JKBEh img"
+    },
+    "urlPattern": "https://shopee.tw/"
+  },
+  "momo": {
+    "domain": "momo.com.tw",
+    "name": "momo購物網",
+    "selectors": {
+      "name": ".prdName, .prodTitle h3",
+      "price": ".price, .prdPrice, .priceArea",
+      "image": ".prdMainPic img, .productImg img"
+    },
+    "urlPattern": "https://www.momo.com.tw/"
+  },
+  "pchome": {
+    "domain": "24h.pchome.com.tw",
+    "name": "PChome 24h購物",
+    "selectors": {
+      "name": "#prodNickName, .prod_name",
+      "price": "#price, .prod_price",
+      "image": "#prodImg, .prod_img img"
+    },
+    "urlPattern": "https://24h.pchome.com.tw/"
+  }
+}
