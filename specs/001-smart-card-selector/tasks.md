@@ -58,16 +58,16 @@
 
 ### 實作使用者故事 1
 
-- [ ] T013 [P] [US1] 在 app.js 實作 ProductParser.parseProductUrl() 模組（解析商品網址，提取平台和商品資訊）
-- [ ] T014 [P] [US1] 在 app.js 實作 PriceFetcher.fetchSinglePlatform() 內部函數（使用 CORS proxy 爬取單一平台價格）
-- [ ] T015 [US1] 在 app.js 實作 PriceFetcher.fetchPricesFromAllPlatforms() 模組（並行爬取多個平台，依賴 T014）
-- [ ] T016 [US1] 在 app.js 實作聯盟連結生成邏輯（根據 affiliate-links.json 模板生成追蹤連結）
-- [ ] T017 [US1] 在 app.js 實作 UIRenderer.renderPriceComparison() 模組（渲染價格比較清單，標示最便宜選項）
-- [ ] T018 [US1] 在 index.html 新增商品網址輸入表單（包含輸入框和「開始比價」按鈕）
-- [ ] T019 [US1] 在 index.html 新增價格比較結果區塊（用於顯示各平台價格）
-- [ ] T020 [US1] 在 styles.css 新增價格比較清單樣式（包含最便宜標記、平台卡片樣式）
-- [ ] T021 [US1] 在 app.js 實作主流程：連結表單提交事件到完整比價流程（整合 ProductParser → PriceFetcher → UIRenderer）
-- [ ] T022 [US1] 在 app.js 新增錯誤處理邏輯（處理無效網址、不支援平台、爬取失敗等情況）
+- [X] T013 [P] [US1] 在 app.js 實作 ProductParser.parseProductUrl() 模組（解析商品網址，提取平台和商品資訊）
+- [X] T014 [P] [US1] 在 app.js 實作 PriceFetcher.fetchSinglePlatform() 內部函數（使用 CORS proxy 爬取單一平台價格）
+- [X] T015 [US1] 在 app.js 實作 PriceFetcher.fetchPricesFromAllPlatforms() 模組（並行爬取多個平台，依賴 T014）
+- [X] T016 [US1] 在 app.js 實作聯盟連結生成邏輯（根據 affiliate-links.json 模板生成追蹤連結）
+- [X] T017 [US1] 在 app.js 實作 UIRenderer.renderPriceComparison() 模組（渲染價格比較清單，標示最便宜選項）
+- [X] T018 [US1] 在 index.html 新增商品網址輸入表單（包含輸入框和「開始比價」按鈕）
+- [X] T019 [US1] 在 index.html 新增價格比較結果區塊（用於顯示各平台價格）
+- [X] T020 [US1] 在 styles.css 新增價格比較清單樣式（包含最便宜標記、平台卡片樣式）
+- [X] T021 [US1] 在 app.js 實作主流程：連結表單提交事件到完整比價流程（整合 ProductParser → PriceFetcher → UIRenderer）
+- [X] T022 [US1] 在 app.js 新增錯誤處理邏輯（處理無效網址、不支援平台、爬取失敗等情況）
 
 **檢查點**: 此時，使用者故事 1 應該完全可用且可獨立測試
 
