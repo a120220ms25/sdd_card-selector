@@ -1,17 +1,45 @@
-/* CSS 變數定義 */
+/* CSS 變數定義 - Ant Design 風格 */
 :root {
-    --primary-color: #4a90e2;
-    --secondary-color: #50c878;
-    --danger-color: #e74c3c;
-    --warning-color: #f39c12;
-    --text-color: #333;
-    --bg-color: #f5f7fa;
+    /* Ant Design 配色 */
+    --primary-color: #1677ff;
+    --primary-hover: #4096ff;
+    --primary-active: #0958d9;
+    --success-color: #52c41a;
+    --warning-color: #faad14;
+    --danger-color: #ff4d4f;
+    --info-color: #1677ff;
+
+    /* 文字顏色 */
+    --text-color: rgba(0, 0, 0, 0.88);
+    --text-secondary: rgba(0, 0, 0, 0.65);
+    --text-tertiary: rgba(0, 0, 0, 0.45);
+
+    /* 背景色 */
+    --bg-color: #f5f5f5;
     --card-bg: #ffffff;
-    --border-color: #e1e8ed;
-    --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.15);
+
+    /* 邊框 */
+    --border-color: #d9d9d9;
+    --border-color-split: rgba(5, 5, 5, 0.06);
+
+    /* 陰影 */
+    --shadow-card: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+    --shadow-hover: 0 1px 2px -2px rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.12), 0 5px 12px 4px rgba(0, 0, 0, 0.09);
+
+    /* 圓角 */
     --border-radius: 8px;
-    --transition: all 0.3s ease;
+    --border-radius-sm: 6px;
+    --border-radius-lg: 12px;
+
+    /* 動畫 */
+    --transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+
+    /* 間距（8px 基礎單位）*/
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
 }
 
 /* 基本重置 */
@@ -22,8 +50,9 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
-    line-height: 1.6;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji', 'Noto Sans TC', 'Microsoft JhengHei';
+    font-size: 14px;
+    line-height: 1.5715;
     color: var(--text-color);
     background-color: var(--bg-color);
 }
@@ -35,108 +64,132 @@ body {
     padding: 20px;
 }
 
-/* 標題區 */
+/* 標題區 - Ant Design 風格 */
 header {
     text-align: center;
-    padding: 40px 0;
+    padding: var(--space-xl) 0 var(--space-lg);
 }
 
 header h1 {
-    font-size: 2.5rem;
-    color: var(--primary-color);
-    margin-bottom: 10px;
+    font-size: 38px;
+    font-weight: 600;
+    line-height: 1.23;
+    color: var(--text-color);
+    margin-bottom: var(--space-sm);
 }
 
 .subtitle {
-    font-size: 1.1rem;
-    color: #666;
+    font-size: 16px;
+    color: var(--text-secondary);
+    font-weight: 400;
 }
 
-/* 輸入表單區 */
+/* 輸入表單區 - Ant Design Card 風格 */
 .input-section {
     background: var(--card-bg);
-    padding: 30px;
+    padding: var(--space-lg);
     border-radius: var(--border-radius);
-    box-shadow: var(--shadow);
-    margin-bottom: 30px;
+    box-shadow: var(--shadow-card);
+    margin-bottom: var(--space-lg);
+    border: 1px solid var(--border-color-split);
 }
 
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: var(--space-md);
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
+    margin-bottom: var(--space-sm);
+    font-weight: 500;
+    font-size: 14px;
     color: var(--text-color);
 }
 
+/* Ant Design Input 風格 */
 .form-group input[type="url"] {
     width: 100%;
-    padding: 12px 16px;
-    border: 2px solid var(--border-color);
-    border-radius: var(--border-radius);
-    font-size: 1rem;
+    padding: 4px 11px;
+    height: 32px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    font-size: 14px;
+    line-height: 1.5715;
+    color: var(--text-color);
+    background-color: #ffffff;
     transition: var(--transition);
+}
+
+.form-group input[type="url"]:hover {
+    border-color: var(--primary-hover);
 }
 
 .form-group input[type="url"]:focus {
     outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+    border-color: var(--primary-hover);
+    box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
 }
 
+/* Ant Design Button 風格 */
 .btn-primary {
     width: 100%;
-    padding: 14px 24px;
+    height: 40px;
+    padding: 4px 15px;
     background-color: var(--primary-color);
     color: white;
     border: none;
-    border-radius: var(--border-radius);
-    font-size: 1.1rem;
-    font-weight: 600;
+    border-radius: var(--border-radius-sm);
+    font-size: 14px;
+    font-weight: 400;
     cursor: pointer;
     transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 0 rgba(5, 145, 255, 0.1);
 }
 
 .btn-primary:hover {
-    background-color: #3a7bc8;
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-hover);
+    background-color: var(--primary-hover);
+}
+
+.btn-primary:active {
+    background-color: var(--primary-active);
 }
 
 .btn-primary:disabled {
-    background-color: #ccc;
+    background-color: rgba(0, 0, 0, 0.04);
+    color: rgba(0, 0, 0, 0.25);
+    border-color: var(--border-color);
     cursor: not-allowed;
-    transform: none;
+    box-shadow: none;
 }
 
-/* 載入指示器 */
+/* Ant Design Spin 載入指示器 */
 .loading {
     text-align: center;
-    padding: 50px 40px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: var(--space-xl) var(--space-lg);
+    background: var(--card-bg);
     border-radius: var(--border-radius);
-    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
-    margin-bottom: 30px;
-    color: white;
+    box-shadow: var(--shadow-card);
+    margin-bottom: var(--space-lg);
+    border: 1px solid var(--border-color-split);
 }
 
 .loading p {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: white;
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-top: var(--space-md);
 }
 
 .spinner {
-    border: 4px solid rgba(255, 255, 255, 0.3);
-    border-top: 4px solid white;
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    border-top: 3px solid var(--primary-color);
     border-radius: 50%;
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     animation: spin 0.8s linear infinite;
-    margin: 0 auto 20px;
+    margin: 0 auto;
 }
 
 @keyframes spin {
@@ -144,43 +197,24 @@ header h1 {
     100% { transform: rotate(360deg); }
 }
 
-/* 載入動畫增強 */
-.loading::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-    animation: pulse-ring 1.5s ease-out infinite;
-}
-
-@keyframes pulse-ring {
-    0% {
-        transform: translate(-50%, -50%) scale(0.8);
-        opacity: 1;
-    }
-    100% {
-        transform: translate(-50%, -50%) scale(1.5);
-        opacity: 0;
-    }
-}
-
-.loading {
+/* Ant Design Alert 錯誤訊息 */
+.error-message {
+    background-color: #fff2f0;
+    border: 1px solid #ffccc7;
+    border-radius: var(--border-radius-sm);
+    padding: 8px 15px;
+    margin-bottom: var(--space-md);
+    color: var(--danger-color);
+    font-size: 14px;
+    line-height: 1.5715;
     position: relative;
 }
 
-/* 錯誤訊息 */
-.error-message {
-    background-color: #fee;
-    color: var(--danger-color);
-    padding: 16px;
-    border-radius: var(--border-radius);
-    border-left: 4px solid var(--danger-color);
-    margin-bottom: 30px;
+.error-message::before {
+    content: '✕';
+    display: inline-block;
+    margin-right: 8px;
+    font-weight: bold;
 }
 
 /* 隱藏元素 */
@@ -193,40 +227,43 @@ header h1 {
     margin-top: 30px;
 }
 
-/* 價格比較區塊 */
+/* 價格比較區塊 - Ant Design 風格 */
 .price-comparison-section h2 {
-    font-size: 1.8rem;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.35;
     color: var(--text-color);
-    margin-bottom: 24px;
+    margin-bottom: var(--space-lg);
     text-align: center;
 }
 
-/* 商品預覽 */
+/* Ant Design Card 商品預覽 */
 .product-preview {
     display: flex;
     align-items: center;
-    gap: 20px;
-    background: white;
-    padding: 20px;
+    gap: var(--space-md);
+    background: var(--card-bg);
+    padding: var(--space-md);
     border-radius: var(--border-radius);
-    margin-bottom: 24px;
-    box-shadow: var(--shadow);
+    margin-bottom: var(--space-lg);
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--border-color-split);
 }
 
 .product-image {
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
     object-fit: cover;
-    border-radius: var(--border-radius);
-    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--border-color-split);
 }
 
 .product-name {
     flex: 1;
-    font-size: 1.2rem;
-    font-weight: 600;
+    font-size: 16px;
+    font-weight: 500;
     color: var(--text-color);
-    line-height: 1.5;
+    line-height: 1.5715;
 }
 
 #priceComparisonResults {
@@ -236,14 +273,14 @@ header h1 {
     margin-bottom: 40px;
 }
 
-/* 平台卡片 */
+/* Ant Design Card 平台卡片 */
 .platform-card {
     position: relative;
     background: var(--card-bg);
-    border: 2px solid var(--border-color);
+    border: 1px solid var(--border-color-split);
     border-radius: var(--border-radius);
-    padding: 24px;
-    box-shadow: var(--shadow);
+    padding: var(--space-lg);
+    box-shadow: var(--shadow-card);
     transition: var(--transition);
     display: flex;
     flex-direction: column;
@@ -254,90 +291,88 @@ header h1 {
 /* 平台商品圖片 */
 .platform-product-image {
     width: 100%;
-    margin-bottom: 16px;
+    margin-bottom: var(--space-md);
 }
 
 .platform-product-image img {
     width: 100%;
     height: 180px;
     object-fit: cover;
-    border-radius: var(--border-radius);
-    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--border-color-split);
 }
 
 .platform-card:hover {
     box-shadow: var(--shadow-hover);
-    transform: translateY(-4px);
+    border-color: var(--primary-color);
 }
 
-/* 最划算標記 */
+/* Ant Design Badge 最划算標記 */
 .platform-card.cheapest {
-    border-color: var(--secondary-color);
-    border-width: 3px;
-    box-shadow: 0 4px 20px rgba(80, 200, 120, 0.2);
+    border-color: var(--success-color);
+    border-width: 2px;
 }
 
 .cheapest-badge {
     position: absolute;
-    top: -12px;
-    right: 20px;
-    background: linear-gradient(135deg, var(--secondary-color), #45b068);
+    top: var(--space-sm);
+    right: var(--space-sm);
+    background: var(--success-color);
     color: white;
-    padding: 6px 16px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 700;
-    box-shadow: 0 2px 8px rgba(80, 200, 120, 0.4);
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0%, 100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.05);
-    }
+    padding: 0 8px;
+    height: 22px;
+    line-height: 22px;
+    border-radius: 11px;
+    font-size: 12px;
+    font-weight: 400;
 }
 
 /* 平台名稱 */
 .platform-name {
-    font-size: 1.4rem;
+    font-size: 18px;
     color: var(--text-color);
-    margin-bottom: 16px;
-    font-weight: 600;
+    margin-bottom: var(--space-md);
+    font-weight: 500;
 }
 
-/* 價格顯示 */
+/* Ant Design Statistic 價格顯示 */
 .price-display {
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--primary-color);
-    margin-bottom: 12px;
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: var(--space-sm);
+    font-variant-numeric: tabular-nums;
 }
 
 .platform-card.cheapest .price-display {
-    color: var(--secondary-color);
+    color: var(--success-color);
 }
 
-/* 價格趨勢 */
+/* Ant Design Tag 價格趨勢 */
 .price-trend {
-    font-size: 0.9rem;
-    font-weight: 600;
-    margin-bottom: 8px;
-}
-
-.lowest-price-note {
-    font-size: 0.85rem;
-    color: #888;
-    margin-bottom: 16px;
-    padding: 6px 12px;
-    background: #f8f9fa;
-    border-radius: 16px;
+    font-size: 12px;
+    line-height: 20px;
+    margin-bottom: var(--space-sm);
+    padding: 0 7px;
+    border-radius: 2px;
     display: inline-block;
 }
 
-/* 卡片操作按鈕 */
+/* Ant Design Tag 歷史最低價 */
+.lowest-price-note {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-md);
+    padding: 0 8px;
+    height: 22px;
+    line-height: 20px;
+    background: #fafafa;
+    border: 1px solid var(--border-color);
+    border-radius: 2px;
+    display: inline-block;
+}
+
+/* Ant Design Button 卡片操作 */
 .card-actions {
     width: 100%;
     margin-top: auto;
@@ -345,37 +380,41 @@ header h1 {
 
 .card-actions .btn-primary {
     width: 100%;
-    padding: 12px 20px;
-    font-size: 1rem;
+    height: 32px;
+    padding: 4px 15px;
+    font-size: 14px;
 }
 
 .platform-card.cheapest .card-actions .btn-primary {
-    background: linear-gradient(135deg, var(--secondary-color), #45b068);
+    background: var(--success-color);
+    border-color: var(--success-color);
 }
 
 .platform-card.cheapest .card-actions .btn-primary:hover {
-    background: linear-gradient(135deg, #45b068, #3a9557);
+    background: #73d13d;
+    border-color: #73d13d;
 }
 
-/* 信用卡推薦區塊 */
+/* Ant Design 信用卡推薦區塊 */
 .credit-card-section {
-    margin-top: 40px;
-    padding-top: 40px;
-    border-top: 2px solid var(--border-color);
+    margin-top: var(--space-xl);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--border-color-split);
 }
 
 .credit-card-section h2 {
-    font-size: 1.8rem;
+    font-size: 24px;
+    font-weight: 600;
     color: var(--text-color);
-    margin-bottom: 8px;
+    margin-bottom: var(--space-sm);
     text-align: center;
 }
 
 .section-subtitle {
     text-align: center;
-    color: #666;
-    font-size: 0.95rem;
-    margin-bottom: 24px;
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin-bottom: var(--space-lg);
 }
 
 .no-results {
@@ -392,14 +431,14 @@ header h1 {
     gap: 24px;
 }
 
-/* 信用卡卡片 */
+/* Ant Design 信用卡卡片 */
 .credit-card {
     position: relative;
     background: var(--card-bg);
-    border: 2px solid var(--border-color);
+    border: 1px solid var(--border-color-split);
     border-radius: var(--border-radius);
     padding: 0;
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow-card);
     transition: var(--transition);
     overflow: hidden;
     display: flex;
@@ -408,69 +447,72 @@ header h1 {
 
 .credit-card:hover {
     box-shadow: var(--shadow-hover);
-    transform: translateY(-2px);
+    border-color: var(--primary-color);
 }
 
-/* 最推薦標記 */
+/* Ant Design Badge 最推薦標記 */
 .credit-card.top-choice {
     border-color: var(--warning-color);
-    border-width: 3px;
+    border-width: 2px;
 }
 
 .top-badge {
     position: absolute;
-    top: 12px;
-    right: 12px;
-    background: linear-gradient(135deg, var(--warning-color), #e67e22);
+    top: var(--space-sm);
+    right: var(--space-sm);
+    background: var(--warning-color);
     color: white;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    box-shadow: 0 2px 8px rgba(243, 156, 18, 0.4);
+    padding: 0 8px;
+    height: 22px;
+    line-height: 22px;
+    border-radius: 11px;
+    font-size: 12px;
+    font-weight: 400;
     z-index: 1;
 }
 
-/* 卡片標題 */
+/* Ant Design 卡片標題 */
 .card-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 20px;
+    background: var(--primary-color);
+    padding: var(--space-md);
     color: white;
 }
 
 .card-name {
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin-bottom: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: var(--space-xs);
+    line-height: 1.5715;
 }
 
 .bank-name {
-    font-size: 0.9rem;
-    opacity: 0.95;
+    font-size: 14px;
+    opacity: 0.85;
 }
 
-/* 卡片內容 */
+/* Ant Design 卡片內容 */
 .card-body {
-    padding: 20px;
+    padding: var(--space-md);
     flex-grow: 1;
 }
 
 .benefit-info {
     display: grid;
     grid-template-columns: auto 1fr;
-    gap: 12px;
-    margin-bottom: 16px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid var(--border-color);
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--border-color-split);
 }
 
 .benefit-rate {
     grid-column: 1 / -1;
-    font-size: 1.8rem;
-    font-weight: 700;
+    font-size: 28px;
+    font-weight: 600;
     color: var(--warning-color);
     text-align: center;
-    margin-bottom: 8px;
+    margin-bottom: var(--space-sm);
+    font-variant-numeric: tabular-nums;
 }
 
 .benefit-amount,
@@ -550,18 +592,19 @@ header h1 {
     background: linear-gradient(135deg, #764ba2, #5a3d7a);
 }
 
-/* 最佳方案區塊 */
+/* Ant Design 最佳方案區塊 */
 .best-deal-section {
-    margin-bottom: 40px;
+    margin-bottom: var(--space-xl);
 }
 
 .best-deal-container {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 12px;
+    background: var(--card-bg);
+    border-radius: var(--border-radius-lg);
     padding: 0;
-    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+    box-shadow: var(--shadow-hover);
     overflow: hidden;
-    animation: slideDown 0.5s ease-out;
+    animation: slideDown 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    border: 1px solid var(--border-color-split);
 }
 
 @keyframes slideDown {
@@ -575,33 +618,25 @@ header h1 {
     }
 }
 
-/* 最佳方案標題 */
+/* Ant Design 最佳方案標題 */
 .best-deal-header {
     text-align: center;
-    padding: 24px 20px 16px;
+    padding: var(--space-lg) var(--space-md);
+    background: var(--primary-color);
     color: white;
     position: relative;
 }
 
 .crown-icon {
-    font-size: 3rem;
-    margin-bottom: 8px;
-    animation: bounce 1s infinite;
-}
-
-@keyframes bounce {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-10px);
-    }
+    font-size: 40px;
+    margin-bottom: var(--space-sm);
 }
 
 .best-deal-header h2 {
-    font-size: 2rem;
+    font-size: 24px;
     margin: 0;
-    font-weight: 700;
+    font-weight: 600;
+    line-height: 1.35;
 }
 
 /* 最佳方案內容 */
