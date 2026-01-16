@@ -10,14 +10,14 @@
     "urlPattern": "https://shopee.tw/"
   },
   "momo": {
-    "domain": "momo.com.tw",
+    "domain": "momoshop.com.tw",
     "name": "momo購物網",
     "selectors": {
-      "name": ".prdName, .prodTitle h3",
-      "price": ".price, .prdPrice, .priceArea",
-      "image": ".prdMainPic img, .productImg img"
+      "name": ".prdName, .prodTitle h3, #goods_name",
+      "price": ".price, .prdPrice, .priceArea, .prdPrice em",
+      "image": ".prdMainPic img, .productImg img, #bigImg"
     },
-    "urlPattern": "https://www.momo.com.tw/"
+    "urlPattern": "https://www.momoshop.com.tw/"
   },
   "pchome": {
     "domain": "24h.pchome.com.tw",
