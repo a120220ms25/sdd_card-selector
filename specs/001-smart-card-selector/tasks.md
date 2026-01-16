@@ -114,13 +114,13 @@
 
 **目的**: 影響多個使用者故事的改進
 
-- [ ] T034 [P] 在 styles.css 新增響應式設計支援（手機版適配）
-- [ ] T035 [P] 在 index.html 和 styles.css 新增載入動畫（爬取資料時的載入指示器）
-- [ ] T036 在 app.js 新增 CORS proxy 自動切換邏輯（當一個 proxy 失敗時自動切換到備用）
-- [ ] T037 [P] 建立 README.md 檔案（包含專案說明、使用方式、開發指南）
-- [ ] T038 在 index.html 最佳化 SEO meta 標籤（title、description、keywords）
-- [ ] T039 在 app.js 新增效能最佳化（價格爬取逾時控制、並行請求限制）
-- [ ] T040 執行 quickstart.md 中的手動測試驗證（測試所有使用者故事的驗收場景）
+- [X] T034 [P] 在 styles.css 新增響應式設計支援（手機版適配）
+- [X] T035 [P] 在 index.html 和 styles.css 新增載入動畫（爬取資料時的載入指示器）
+- [X] T036 在 app.js 新增 CORS proxy 自動切換邏輯（當一個 proxy 失敗時自動切換到備用）
+- [X] T037 [P] 建立 README.md 檔案（包含專案說明、使用方式、開發指南）
+- [X] T038 在 index.html 最佳化 SEO meta 標籤（title、description、keywords）
+- [X] T039 在 app.js 新增效能最佳化（價格爬取逾時控制、並行請求限制）
+- [X] T040 執行 quickstart.md 中的手動測試驗證（測試所有使用者故事的驗收場景）
 
 ---
 

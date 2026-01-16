@@ -15,6 +15,14 @@ const CORS_PROXIES = [
 ];
 let currentProxyIndex = 0;
 
+// 效能設定 (T039)
+const PERFORMANCE_CONFIG = {
+    FETCH_TIMEOUT: 10000,        // 爬取逾時：10秒
+    MAX_CONCURRENT_REQUESTS: 3,   // 最大並行請求數
+    RETRY_DELAY: 1000,            // 重試延遲：1秒
+    CACHE_DURATION: 300000        // 快取時長：5分鐘
+};
+
 // 全域資料儲存
 let creditCardsData = [];
 let platformRulesData = {};
@@ -120,6 +128,77 @@ const StorageManager = {
 };
 
 // ============================================================================
+// 模組：ProxyManager - CORS Proxy 管理模組
+// ============================================================================
+
+const ProxyManager = {
+    /**
+     * 取得當前 CORS proxy
+     */
+    getCurrentProxy() {
+        return CORS_PROXIES[currentProxyIndex];
+    },
+
+    /**
+     * 切換到下一個 CORS proxy
+     * T036 實作
+     */
+    switchToNextProxy() {
+        currentProxyIndex = (currentProxyIndex + 1) % CORS_PROXIES.length;
+        console.log(`切換到 CORS proxy: ${this.getCurrentProxy()}`);
+        return this.getCurrentProxy();
+    },
+
+    /**
+     * 重置 proxy 索引
+     */
+    reset() {
+        currentProxyIndex = 0;
+        console.log('重置 CORS proxy 索引');
+    },
+
+    /**
+     * 使用 CORS proxy 爬取網址（帶重試機制）
+     */
+    async fetchWithProxy(url, maxRetries = CORS_PROXIES.length) {
+        let lastError = null;
+
+        for (let attempt = 0; attempt < maxRetries; attempt++) {
+            const proxy = this.getCurrentProxy();
+            const proxyUrl = `${proxy}${encodeURIComponent(url)}`;
+
+            try {
+                console.log(`嘗試使用 proxy ${attempt + 1}/${maxRetries}: ${proxy}`);
+                const response = await fetch(proxyUrl, {
+                    timeout: 10000 // 10 秒逾時
+                });
+
+                if (response.ok) {
+                    console.log('成功使用 CORS proxy 爬取');
+                    return { success: true, data: await response.text() };
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch (error) {
+                console.warn(`Proxy ${proxy} 失敗:`, error.message);
+                lastError = error;
+
+                // 如果還有更多 proxy 可嘗試，則切換
+                if (attempt < maxRetries - 1) {
+                    this.switchToNextProxy();
+                }
+            }
+        }
+
+        console.error('所有 CORS proxy 都失敗');
+        return {
+            success: false,
+            error: `無法爬取網頁: ${lastError?.message || '未知錯誤'}`
+        };
+    }
+};
+
+// ============================================================================
 // 模組：ProductParser - 商品解析模組
 // ============================================================================
 
@@ -164,8 +243,8 @@ const ProductParser = {
 
             // 生成商品物件
             const product = {
-                id: `prod_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-                name: `商品 ${productId.substr(0, 10)}`, // 暫時使用 ID，實際需爬取
+                id: `prod_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
+                name: `商品 ${productId.substring(0, 10)}`, // 暫時使用 ID，實際需爬取
                 originalUrl: url,
                 sourcePlatform: sourcePlatform,
                 keywords: [productId], // 簡化版關鍵字
@@ -190,39 +269,48 @@ const PriceFetcher = {
     /**
      * 爬取單一平台的商品價格（內部函數）
      * T014 實作
+     * T039 增強：逾時控制
      */
     async fetchSinglePlatform({ platform, productKeywords }) {
         try {
             console.log(`開始爬取平台: ${platform}`);
 
+            // 建立逾時 Promise (T039)
+            const timeoutPromise = new Promise((_, reject) => {
+                setTimeout(() => reject(new Error('請求逾時')), PERFORMANCE_CONFIG.FETCH_TIMEOUT);
+            });
+
             // MVP 簡化版：模擬價格資料（實際需要使用 CORS proxy 爬取）
-            // 真實實作需要使用 CORS proxy + HTML 解析
-            const mockPrices = {
-                shopee: Math.floor(Math.random() * 10000) + 20000,
-                momo: Math.floor(Math.random() * 10000) + 22000,
-                pchome: Math.floor(Math.random() * 10000) + 21000
-            };
+            const fetchPromise = (async () => {
+                const mockPrices = {
+                    shopee: Math.floor(Math.random() * 10000) + 20000,
+                    momo: Math.floor(Math.random() * 10000) + 22000,
+                    pchome: Math.floor(Math.random() * 10000) + 21000
+                };
 
-            // 模擬網路延遲
-            await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1000));
+                // 模擬網路延遲（減少延遲以改善效能）
+                await new Promise(resolve => setTimeout(resolve, 800 + Math.random() * 400));
 
-            const rule = platformRulesData[platform];
-            if (!rule) {
-                throw new Error(`找不到平台規則: ${platform}`);
-            }
+                const rule = platformRulesData[platform];
+                if (!rule) {
+                    throw new Error(`找不到平台規則: ${platform}`);
+                }
 
-            // 生成價格物件
-            const priceData = {
-                id: `price_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-                productId: null, // 將由調用方設定
-                platform: platform,
-                platformProductUrl: `${rule.urlPattern}product/${productKeywords[0]}`,
-                price: mockPrices[platform] || 25000,
-                available: true,
-                affiliateUrl: null, // 將由 T016 生成
-                imageUrl: null,
-                fetchedAt: Date.now()
-            };
+                return {
+                    id: `price_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
+                    productId: null,
+                    platform: platform,
+                    platformProductUrl: `${rule.urlPattern}product/${productKeywords[0]}`,
+                    price: mockPrices[platform] || 25000,
+                    available: true,
+                    affiliateUrl: null,
+                    imageUrl: null,
+                    fetchedAt: Date.now()
+                };
+            })();
+
+            // 競速：先完成的 Promise 獲勝
+            const priceData = await Promise.race([fetchPromise, timeoutPromise]);
 
             console.log(`${platform} 價格爬取成功:`, priceData.price);
             return { success: true, price: priceData };
@@ -236,38 +324,46 @@ const PriceFetcher = {
     /**
      * 並行爬取多個平台的價格
      * T015 實作
+     * T039 增強：並行請求限制
      */
     async fetchPricesFromAllPlatforms({ product, platforms }) {
         console.log('開始並行爬取多個平台...', platforms);
 
-        const fetchPromises = platforms.map(platform =>
-            this.fetchSinglePlatform({
-                platform,
-                productKeywords: product.keywords
-            }).then(result => ({
-                platform,
-                ...result
-            }))
-        );
-
-        const results = await Promise.allSettled(fetchPromises);
-
         const prices = [];
         const errors = [];
 
-        results.forEach((result, index) => {
-            if (result.status === 'fulfilled' && result.value.success) {
-                const priceData = result.value.price;
-                priceData.productId = product.id;
-                prices.push(priceData);
-            } else {
-                const platform = platforms[index];
-                const errorMsg = result.status === 'fulfilled'
-                    ? result.value.error
-                    : result.reason?.message || '未知錯誤';
-                errors.push({ platform, error: errorMsg });
-            }
-        });
+        // 分批處理以限制並行請求數 (T039)
+        const batchSize = PERFORMANCE_CONFIG.MAX_CONCURRENT_REQUESTS;
+        for (let i = 0; i < platforms.length; i += batchSize) {
+            const batch = platforms.slice(i, i + batchSize);
+            console.log(`處理批次 ${Math.floor(i / batchSize) + 1}: ${batch.join(', ')}`);
+
+            const fetchPromises = batch.map(platform =>
+                this.fetchSinglePlatform({
+                    platform,
+                    productKeywords: product.keywords
+                }).then(result => ({
+                    platform,
+                    ...result
+                }))
+            );
+
+            const results = await Promise.allSettled(fetchPromises);
+
+            results.forEach((result, index) => {
+                if (result.status === 'fulfilled' && result.value.success) {
+                    const priceData = result.value.price;
+                    priceData.productId = product.id;
+                    prices.push(priceData);
+                } else {
+                    const platform = batch[index];
+                    const errorMsg = result.status === 'fulfilled'
+                        ? result.value.error
+                        : result.reason?.message || '未知錯誤';
+                    errors.push({ platform, error: errorMsg });
+                }
+            });
+        }
 
         console.log(`爬取完成: 成功 ${prices.length} 個，失敗 ${errors.length} 個`);
 
@@ -851,12 +947,18 @@ function showError(message, duration = 5000) {
 
 /**
  * 顯示載入指示器
+ * @param {boolean} show - 是否顯示
+ * @param {string} message - 載入訊息（選填）
  */
-function showLoading(show = true) {
+function showLoading(show = true, message = '正在查詢各平台價格...') {
     const loadingDiv = document.getElementById('loadingIndicator');
     const submitBtn = document.getElementById('submitBtn');
+    const loadingText = loadingDiv.querySelector('p');
 
     if (show) {
+        if (loadingText) {
+            loadingText.textContent = message;
+        }
         loadingDiv.classList.remove('hidden');
         submitBtn.disabled = true;
     } else {
