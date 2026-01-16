@@ -3,7 +3,7 @@
  * 提供離線支援和快取功能
  */
 
-const CACHE_NAME = 'smart-card-selector-v1';
+const CACHE_NAME = 'smart-card-selector-v2';
 const STATIC_ASSETS = [
     '/',
     '/index.html',
