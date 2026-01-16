@@ -84,6 +84,28 @@ header h1 {
     font-weight: 400;
 }
 
+/* Ant Design Alert 演示提示 */
+.demo-notice {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    background-color: #e6f4ff;
+    border: 1px solid #91caff;
+    border-radius: var(--border-radius-sm);
+    padding: 8px 15px;
+    margin-top: var(--space-md);
+    font-size: 14px;
+    color: var(--info-color);
+}
+
+.notice-icon {
+    font-size: 16px;
+}
+
+.notice-text {
+    line-height: 1.5715;
+}
+
 /* 輸入表單區 - Ant Design Card 風格 */
 .input-section {
     background: var(--card-bg);

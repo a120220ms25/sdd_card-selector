@@ -116,7 +116,7 @@ const StorageManager = {
      */
     getRecentSearches() {
         try {
-            const data = localStorage.setItem('recentSearches');
+            const data = localStorage.getItem('recentSearches');
             if (!data) {
                 return { searches: [] };
             }
@@ -365,50 +365,32 @@ const ProductParser = {
             const pathParts = parsedUrl.pathname.split('/').filter(p => p);
             const productId = pathParts[pathParts.length - 1] || 'unknown';
 
+            // 從 URL 提取可能的商品名稱
             let productName = `商品 ${productId.substring(0, 10)}`;
-            let productImage = null;
 
-            // 嘗試爬取商品頁面獲取真實資訊（不阻塞主流程）
-            console.log('嘗試爬取商品頁面（背景執行）...');
-
-            // 使用 Promise.race 確保不會等太久
-            const fetchWithTimeout = Promise.race([
-                ProxyManager.fetchWithProxy(url),
-                new Promise(resolve => setTimeout(() => resolve({ success: false }), 3000)) // 3秒逾時
-            ]);
-
-            try {
-                const fetchResult = await fetchWithTimeout;
-
-                if (fetchResult.success) {
-                    const html = fetchResult.data;
-                    const rule = platformRulesData[sourcePlatform];
-
-                    // 提取商品名稱
-                    const nameSelectors = rule.selectors.name.split(',').map(s => s.trim());
-                    for (const selector of nameSelectors) {
-                        const name = this.extractTextFromHTML(html, selector);
-                        if (name) {
-                            productName = name;
-                            console.log('成功提取商品名稱:', productName);
+            // 嘗試從路徑中提取更好的名稱
+            const pathSegments = parsedUrl.pathname.split('/').filter(p => p);
+            for (const segment of pathSegments) {
+                if (segment.length > 5 && !segment.match(/^\d+$/)) {
+                    // 解碼 URL 編碼的文字
+                    try {
+                        const decoded = decodeURIComponent(segment);
+                        if (decoded !== segment && decoded.length > 3) {
+                            productName = decoded;
                             break;
                         }
-                    }
-
-                    // 提取商品圖片
-                    const imageSelectors = rule.selectors.image.split(',').map(s => s.trim());
-                    for (const selector of imageSelectors) {
-                        const image = this.extractImageFromHTML(html, selector);
-                        if (image) {
-                            productImage = image;
-                            console.log('成功提取商品圖片:', productImage);
-                            break;
-                        }
+                    } catch (e) {
+                        // 忽略解碼錯誤
                     }
                 }
-            } catch (error) {
-                console.warn('爬取商品資訊失敗，使用預設資訊:', error);
             }
+
+            let productImage = null;
+
+            // 注意：由於瀏覽器 CORS 政策，真實爬蟲在前端環境無法可靠工作
+            // 這是演示系統，使用智能模擬資料
+            console.log('📝 演示模式：使用智能模擬商品資訊');
+            console.log('⚠️ 提示：真實爬蟲需要後端伺服器才能繞過 CORS 限制');
 
             // 生成商品物件
             const product = {
@@ -488,27 +470,38 @@ const PriceFetcher = {
                 let price = null;
                 let imageUrl = null;
 
-                // 因為瀏覽器 CORS 限制，真實爬蟲成功率很低
-                // 為了更好的用戶體驗，使用基於原始價格的模擬資料
-                console.log(`${platform} 使用智慧模擬價格資料`);
+                // 因為瀏覽器 CORS 限制，真實爬蟲在前端環境無法工作
+                // 使用智能模擬系統（基於商品 ID 生成穩定價格）
+                console.log(`${platform} 使用智能模擬價格（演示模式）`);
 
-                // 生成合理的價格範圍（基於平台特性）
-                const basePrice = 25000; // 基礎價格
+                // 使用商品關鍵字生成 hash（確保相同商品相同價格）
+                const productHash = productKeywords.join('').split('').reduce(
+                    (hash, char) => ((hash << 5) - hash) + char.charCodeAt(0), 0
+                );
+                const seed = Math.abs(productHash);
+
+                // 基於 seed 生成基礎價格（讓相同商品每次價格一致）
+                const basePrice = 15000 + (seed % 20000); // 15000-35000 區間
+
+                // 平台價格差異（蝦皮最便宜，momo 最貴）
                 const platformVariation = {
-                    shopee: -2000,  // 蝦皮通常較便宜
-                    momo: 0,        // momo 中等
-                    pchome: -1000   // PChome 略便宜
+                    shopee: 0.95,    // 蝦皮 -5%
+                    momo: 1.03,      // momo +3%
+                    pchome: 1.00     // PChome 基準
                 };
 
-                const variation = platformVariation[platform] || 0;
-                const randomFactor = Math.floor(Math.random() * 5000) - 2500;
-                price = basePrice + variation + randomFactor;
+                const multiplier = platformVariation[platform] || 1.00;
+                price = Math.round(basePrice * multiplier);
 
-                // 確保價格合理（15000-35000 之間）
-                price = Math.max(15000, Math.min(35000, price));
+                // 加入小幅隨機變動（模擬即時價格波動）
+                const randomVariation = (Math.random() * 0.02 - 0.01); // ±1%
+                price = Math.round(price * (1 + randomVariation));
 
-                // 模擬較短的網路延遲
-                await new Promise(resolve => setTimeout(resolve, 300 + Math.random() * 200));
+                // 確保價格為整數且在合理範圍內
+                price = Math.max(10000, Math.min(50000, price));
+
+                // 模擬短暫的網路延遲
+                await new Promise(resolve => setTimeout(resolve, 200 + Math.random() * 300));
 
                 return {
                     id: `price_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
